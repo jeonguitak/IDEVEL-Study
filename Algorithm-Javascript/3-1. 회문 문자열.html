@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>3-1. 회문 문자열</title>
+    </head>
+    <body>
+        <script>
+            function solution(s){
+                let answer="YES";
+                let n = s.length;
+
+                s = s.toLowerCase();
+                for( let i = 0; i < n/2; i++ ){
+                    if( s[i] !== s[n - 1 - i] ) {
+                        answer = "NO";
+                        break;
+                    }
+                }
+                return answer;
+            }
+            
+            let str="goooG";
+            console.log(solution(str));
+        </script>
+    </body>
+</html>
