@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>2-4. 점수계산</title>
+    </head>
+    <body>
+        <script>
+            function sum(n) {
+                return (1 + n) * n / 2;
+            }
+
+            function solution(arr){
+                let answer = 0, n = arr.length;
+                let start = -1 ,delta = 0;
+                for( let cur = 0; cur < n; cur++ ){
+                    if( arr[cur] === 1 ){
+                        start = cur;
+                        for( delta = 0; start + delta < n; delta++ ){
+                            if( arr[start + delta] === 0 ) break;
+                        }
+                        answer += sum(delta);
+                        cur += delta;
+                    }
+                }
+                
+                if( start === -1 ) return 0;
+                return answer;
+            }
+
+            let arr=[1, 0, 1, 1, 1, 0, 0, 1, 1, 0];
+            console.log(solution(arr));
+        </script>
+    </body>
+</html>

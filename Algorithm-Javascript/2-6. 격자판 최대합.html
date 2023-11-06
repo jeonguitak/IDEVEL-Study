@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>2-6. 격자판 최대합</title>
+    </head>
+    <body>
+        <script>
+            function solution(arr){  
+                let answer = Number.MIN_SAFE_INTEGER;
+                let n = arr.length;
+                
+                let maxRow = 0, maxCol = 0;
+                for( let i = 0; i < n; i++ ){
+                    let addRow = 0, addCol = 0;
+                    for( let j = 0; j < n; j++ ){
+                        addRow += arr[i][j];
+                        addCol += arr[j][i];
+                    }
+                    maxRow = Math.max(maxRow, addRow);
+                    maxCol = Math.max(maxCol, addCol);
+                }
+
+                let diagonal = 0, reverseDiagonal = 0;
+                for( let i = 0; i < n; i++ ) {
+                    for( let j = 0; j < n; j++ ){
+                        if( i === j ) diagonal += arr[i][j];
+                        if( i+j === n-1 ) reverseDiagonal += arr[i][j];
+                    }
+                }
+
+                answer = Math.max(maxRow, maxCol, diagonal, reverseDiagonal);
+
+                return answer;
+            }
+
+            let arr=[[10, 13, 10, 12, 15], 
+                     [12, 39, 30, 23, 11],
+                     [11, 25, 50, 53, 15],
+                     [19, 27, 29, 37, 27],
+                     [19, 13, 30, 13, 19]];
+            console.log(solution(arr));
+        </script>
+    </body>
+</html>

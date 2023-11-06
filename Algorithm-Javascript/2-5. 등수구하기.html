@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>2-5. 등수구하기</title>
+    </head>
+    <body>
+        <script>
+            function solution(arr){
+                let answer = "";
+
+                let n = arr.length;
+                let students = new Array(n);
+                for( let i = 0; i < n; i++ ){
+                    students[i] = [i, arr[i], 0];
+                }
+                // students[i][0]: 학생 순서 번호(index)
+                // students[i][1]: 학생 점수(score)
+                // students[i][2]: 학생 등수(rank)
+
+                students.sort((a, b) => {
+                    return b[1] - a[1];
+                });
+
+                let curScore = 101, rank = 0, acc = 1;
+                for( let i = 0; i < n; i++ ){
+                    if( curScore !== students[i][1] ){
+                        curScore = students[i][1];
+                        rank += acc;
+                        students[i][2] = rank;
+                        acc = 1;
+                    } 
+                    else {
+                        students[i][2] = rank;
+                        acc++;
+                    }
+                }
+
+                students.sort((a, b) => {
+                    return a[0] - b[0];
+                });
+
+                for( let i = 0; i < n; i++ ){
+                    answer += students[i][2] + " ";
+                }
+
+                return answer;
+            }
+
+            let arr=[87, 89, 92, 100, 76];
+            console.log(solution(arr));
+        </script>
+    </body>
+</html>
