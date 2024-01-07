@@ -1,0 +1,57 @@
+<script>
+    function solution(m, product){
+        let answer = 0;
+        let n = product.length; //학생 수
+
+        // 각 졸업선물의 가격은 (상품가격 + 배송비) 이다.
+        // 각 졸업선물을 구분하가 위해 인덱스를 사용한다.
+        // originalSum[i][0] = 각 선물(학생)을 구분하기 위한 값.
+        // originalSum[i][1] = 상품가격 + 배송비
+        let originalSum = new Array(n);
+        for( let i = 0; i < n; i++ ) {
+            let total = product[i][0] + product[i][1];
+            originalSum[i] = [i, total];
+        }
+        // 주어진 예산에서 가장 많은 선물을 사기위해서는 저렴한 선물을 우선 산다.(탐욕법)
+        originalSum.sort((a, b) => a[1] - b[1]);
+
+        // discountSum[i] = i번 선물에 할인 쿠폰이 적용된 금액. => (상품가격 / 2) + 배송비
+        let discountSum = new Array(n);
+        for( let i = 0; i < n; i++ ) {
+            let total = (product[i][0] / 2) + product[i][1];
+            discountSum[i] = total;
+        }
+
+        // 어느 선물에 할인쿠폰을 적용해야 최대한 많은 선물을 살 수 있는지, 단번에 파악할 수 없다. 
+        // 따라서, 모든 상품에대해 할인 쿠폰을 적용해보면서 탐색한다.
+        for( let i = 0; i < n; i++ ) {
+            // i번 상품에 할인 쿠폰을 적용해본다.
+            let accumulateSum = discountSum[i];
+            if( accumulateSum > m ) continue;
+
+            let count = 1;
+            // i번 상품을 제외한 모든 상품은 원래 가격에 구매해야 하며,
+            // 저렴한 상품을 우선 구입한다.
+            for( let j = 0; j < n; j++ ) {
+                // 원래 가격에 구매할 상품이 i번 상품이라면 패스한다.
+                if( originalSum[j][0] == i ) continue;
+                accumulateSum += originalSum[j][1];
+                if( accumulateSum > m ) break;
+                count++;
+            }
+            answer = Math.max(answer, count);
+        }
+
+        return answer;
+    }
+    
+    let arr1=[[6, 6], [2, 2], [4, 3], [4, 5], [10, 3]];
+    let arr2=[[8, 6], [2, 2], [4, 3], [4, 5], [12, 1]];
+    let arr3=[[8, 6], [2, 2], [12, 1], [4, 5], [4, 3]];
+    let arr4=[[2, 12], [8, 4], [6, 6], [6, 7]];
+
+    console.log(solution(28, arr1));
+    console.log(solution(41, arr2));
+    console.log(solution(41, arr3));
+    console.log(solution(33, arr4));
+</script>
